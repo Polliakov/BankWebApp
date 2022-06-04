@@ -5,14 +5,14 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "clients")
-public class Client {
-    public Client() { }
+public class ClientEntity {
+    public ClientEntity() { }
 
-    public Client(Long id,
-                  String name, String surname, String patronymic,
-                  String phoneNumber, String email, String passportNumber,
-                  Collection<CreditOffer> creditOffers,
-                  Collection<Bank> banks) {
+    public ClientEntity(Long id,
+                        String name, String surname, String patronymic,
+                        String phoneNumber, String email, String passportNumber,
+                        Collection<CreditOfferEntity> creditOfferEntities,
+                        Collection<BankEntity> bankEntities) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -20,8 +20,8 @@ public class Client {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.passportNumber = passportNumber;
-        this.creditOffers = creditOffers;
-        this.banks = banks;
+        this.creditOfferEntities = creditOfferEntities;
+        this.bankEntities = bankEntities;
     }
 
     @Id
@@ -45,11 +45,11 @@ public class Client {
     @Column(nullable = false, unique = true)
     private String passportNumber;
 
-    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
-    private Collection<CreditOffer> creditOffers;
+    @OneToMany(mappedBy = "clientEntity", fetch = FetchType.EAGER)
+    private Collection<CreditOfferEntity> creditOfferEntities;
 
-    @ManyToMany(mappedBy = "clients", fetch = FetchType.LAZY)
-    private Collection<Bank> banks;
+    @ManyToMany(mappedBy = "clientEntities", fetch = FetchType.LAZY)
+    private Collection<BankEntity> bankEntities;
 
     //region Accessors
     public Long getId() {
@@ -108,20 +108,20 @@ public class Client {
         this.passportNumber = passportNumber;
     }
 
-    public Collection<CreditOffer> getCreditOffers() {
-        return creditOffers;
+    public Collection<CreditOfferEntity> getCreditOffers() {
+        return creditOfferEntities;
     }
 
-    public void setCreditOffers(Collection<CreditOffer> creditOffers) {
-        this.creditOffers = creditOffers;
+    public void setCreditOffers(Collection<CreditOfferEntity> creditOfferEntities) {
+        this.creditOfferEntities = creditOfferEntities;
     }
 
-    public Collection<Bank> getBanks() {
-        return banks;
+    public Collection<BankEntity> getBanks() {
+        return bankEntities;
     }
 
-    public void setBanks(Collection<Bank> banks) {
-        this.banks = banks;
+    public void setBanks(Collection<BankEntity> bankEntities) {
+        this.bankEntities = bankEntities;
     }
     //endregion
 }

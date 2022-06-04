@@ -5,13 +5,13 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "banks")
-public class Bank {
-    public Bank () { }
+public class BankEntity {
+    public BankEntity() { }
 
-    public Bank(Long id, Collection<Client> clients, Collection<Credit> credits) {
+    public BankEntity(Long id, Collection<ClientEntity> clientEntities, Collection<CreditEntity> creditEntities) {
         this.id = id;
-        this.clients = clients;
-        this.credits = credits;
+        this.clientEntities = clientEntities;
+        this.creditEntities = creditEntities;
     }
 
     @Id
@@ -24,7 +24,7 @@ public class Bank {
             joinColumns = @JoinColumn(name = "bank_id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "client_id", nullable = false)
     )
-    private Collection<Client> clients;
+    private Collection<ClientEntity> clientEntities;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -32,7 +32,7 @@ public class Bank {
             joinColumns = @JoinColumn(name = "bank_id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "credit_id", nullable = false)
     )
-    private Collection<Credit> credits;
+    private Collection<CreditEntity> creditEntities;
 
     //region Accessors
     public Long getId() {
@@ -43,20 +43,20 @@ public class Bank {
         this.id = id;
     }
 
-    public Collection<Client> getClients() {
-        return clients;
+    public Collection<ClientEntity> getClients() {
+        return clientEntities;
     }
 
-    public void setClients(Collection<Client> clients) {
-        this.clients = clients;
+    public void setClients(Collection<ClientEntity> clientEntities) {
+        this.clientEntities = clientEntities;
     }
 
-    public Collection<Credit> getCredits() {
-        return credits;
+    public Collection<CreditEntity> getCredits() {
+        return creditEntities;
     }
 
-    public void setCredits(Collection<Credit> credits) {
-        this.credits = credits;
+    public void setCredits(Collection<CreditEntity> creditEntities) {
+        this.creditEntities = creditEntities;
     }
     //endregion
 }

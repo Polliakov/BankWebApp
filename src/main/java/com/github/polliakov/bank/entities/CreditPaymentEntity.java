@@ -5,19 +5,19 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "credit_payments")
-public class CreditPayment {
-    public CreditPayment() { }
+public class CreditPaymentEntity {
+    public CreditPaymentEntity() { }
 
-    public CreditPayment(Long id,
-                         BigDecimal total,
-                         BigDecimal bodyPayment,
-                         BigDecimal ratePayment,
-                         CreditOffer creditOffer) {
+    public CreditPaymentEntity(Long id,
+                               BigDecimal total,
+                               BigDecimal bodyPayment,
+                               BigDecimal ratePayment,
+                               CreditOfferEntity creditOfferEntity) {
         this.id = id;
         this.total = total;
         this.bodyPayment = bodyPayment;
         this.ratePayment = ratePayment;
-        this.creditOffer = creditOffer;
+        this.creditOfferEntity = creditOfferEntity;
     }
 
     @Id
@@ -35,7 +35,7 @@ public class CreditPayment {
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "credit_offer_id")
-    private CreditOffer creditOffer;
+    private CreditOfferEntity creditOfferEntity;
 
     //region Accessors
     public Long getId() {
@@ -70,12 +70,12 @@ public class CreditPayment {
         this.ratePayment = ratePayment;
     }
 
-    public CreditOffer getCreditOffer() {
-        return creditOffer;
+    public CreditOfferEntity getCreditOffer() {
+        return creditOfferEntity;
     }
 
-    public void setCreditOffer(CreditOffer creditOffer) {
-        this.creditOffer = creditOffer;
+    public void setCreditOffer(CreditOfferEntity creditOfferEntity) {
+        this.creditOfferEntity = creditOfferEntity;
     }
     //endregion
 }
