@@ -11,7 +11,7 @@ public class CreditEntity {
 
     public CreditEntity(Long id,
                         BigDecimal sumLimit,
-                        BigDecimal rate,
+                        Double rate,
                         Collection<CreditOfferEntity> offers,
                         Collection<BankEntity> bankEntities) {
         this.id = id;
@@ -29,7 +29,7 @@ public class CreditEntity {
     private BigDecimal sumLimit;
 
     @Column(nullable = false)
-    private BigDecimal rate;
+    private Double rate;
 
     @OneToMany(mappedBy = "creditEntity", fetch = FetchType.EAGER)
     private Collection<CreditOfferEntity> offerEntities;
@@ -54,11 +54,11 @@ public class CreditEntity {
         this.sumLimit = sumLimit;
     }
 
-    public BigDecimal getRate() {
+    public Double getRate() {
         return rate;
     }
 
-    public void setRate(BigDecimal rate) {
+    public void setRate(Double rate) {
         this.rate = rate;
     }
 

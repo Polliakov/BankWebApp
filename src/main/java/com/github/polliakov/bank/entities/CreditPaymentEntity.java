@@ -2,6 +2,7 @@ package com.github.polliakov.bank.entities;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
 @Table(name = "credit_payments")
@@ -9,11 +10,13 @@ public class CreditPaymentEntity {
     public CreditPaymentEntity() { }
 
     public CreditPaymentEntity(Long id,
+                               Date date,
                                BigDecimal total,
                                BigDecimal bodyPayment,
                                BigDecimal ratePayment,
                                CreditOfferEntity creditOfferEntity) {
         this.id = id;
+        this.date = date;
         this.total = total;
         this.bodyPayment = bodyPayment;
         this.ratePayment = ratePayment;
@@ -23,6 +26,9 @@ public class CreditPaymentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(nullable = false)
+    private Date date;
 
     @Column(nullable = false)
     private BigDecimal total;
@@ -44,6 +50,14 @@ public class CreditPaymentEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public BigDecimal getTotal() {
