@@ -60,6 +60,7 @@ public class CreditOfferServiceImpl implements CreditOfferService {
 
     @Override
     public void deleteById(Long id) {
+        CheckExists(id);
         repository.deleteById(id);
     }
 

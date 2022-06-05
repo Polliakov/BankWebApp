@@ -3,6 +3,8 @@ package com.github.polliakov.bank.controllers;
 import com.github.polliakov.bank.entities.CreditOfferEntity;
 import com.github.polliakov.bank.entities.CreditPaymentEntity;
 import com.github.polliakov.bank.services.CreditOfferService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,27 +18,49 @@ public class CreditOfferController {
     private final CreditOfferService service;
 
     @PostMapping("/add credit offer")
-    public void create(@RequestBody CreditOfferEntity creditOffer) {
-        service.create(creditOffer);
+    public ResponseEntity<?> create(@RequestBody CreditOfferEntity creditOffer) {
+        try {
+            service.create(creditOffer);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+        catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/credit offers")
-    public List<CreditOfferEntity> getAll(){
-        return service.getAll();
+    public ResponseEntity<List<CreditOfferEntity>> getAll(){
+        var creditOffers = service.getAll();
+        return new ResponseEntity<>(creditOffers, HttpStatus.OK);
     }
 
     @GetMapping("/credit offer/{id}")
-    public CreditOfferEntity getById(@PathVariable Long id) {
-        return service.getById(id);
+    public ResponseEntity<CreditOfferEntity> getById(@PathVariable Long id) {
+        var creditOffer = service.getById(id);
+        return creditOffer != null ?
+                new ResponseEntity<>(creditOffer, HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/credit offer payments/{id}")
-    public List<CreditPaymentEntity> getPayments(@PathVariable Long id){
-        return service.getPayments(id);
+    public ResponseEntity<List<CreditPaymentEntity>> getPayments(@PathVariable Long id) {
+        try {
+            var payments = service.getPayments(id);
+            return new ResponseEntity<>(payments, HttpStatus.OK);
+        }
+        catch (Exception ex) {
+            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("delete credit offer/{id}")
-    public void deleteById(@PathVariable Long id) {
-        service.deleteById(id);
+    public ResponseEntity<?> deleteById(@PathVariable Long id) {
+        try {
+            service.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (Exception ex) {
+            return  new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        }
     }
 }
