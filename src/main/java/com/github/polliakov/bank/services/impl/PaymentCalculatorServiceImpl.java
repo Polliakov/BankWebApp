@@ -21,6 +21,8 @@ public class PaymentCalculatorServiceImpl implements PaymentCalculatorService {
             throw new NullPointerException("creditOffer");
         if (creditOffer.getCredit() == null)
             throw new NullPointerException("creditOffer.credit");
+        if (creditOffer.getCredit().getRate() <= 0)
+            throw new IllegalArgumentException("creditOffer.credit.rate");
         if (monthsCount < 1)
             throw new IllegalArgumentException("monthsCount");
         // endregion

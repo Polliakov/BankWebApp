@@ -2,6 +2,7 @@ package com.github.polliakov.bank.entities;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.regex.Pattern;
 
 @Entity
 @Table(name = "clients")
@@ -36,13 +37,13 @@ public class ClientEntity {
 
     private String patronymic;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 11)
     private String phoneNumber;
 
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 10)
     private String passportNumber;
 
     @OneToMany(mappedBy = "clientEntity", fetch = FetchType.EAGER)
@@ -65,6 +66,8 @@ public class ClientEntity {
     }
 
     public void setName(String name) {
+        if (name.isBlank())
+            throw new IllegalArgumentException();
         this.name = name;
     }
 
@@ -73,6 +76,8 @@ public class ClientEntity {
     }
 
     public void setSurname(String surname) {
+        if (surname.isBlank())
+            throw new IllegalArgumentException();
         this.surname = surname;
     }
 
@@ -81,7 +86,7 @@ public class ClientEntity {
     }
 
     public void setPatronymic(String patronymic) {
-        this.patronymic = patronymic;
+        this.patronymic = patronymic.isBlank() ? null : patronymic;
     }
 
     public String getPhoneNumber() {
@@ -89,6 +94,10 @@ public class ClientEntity {
     }
 
     public void setPhoneNumber(String phoneNumber) {
+        if (phoneNumber.isBlank())
+            throw new IllegalArgumentException();
+        if (!Pattern.compile("\\d{11}").matcher(phoneNumber).matches())
+            throw new IllegalArgumentException();
         this.phoneNumber = phoneNumber;
     }
 
@@ -97,10 +106,16 @@ public class ClientEntity {
     }
 
     public void setEmail(String email) {
+        if (email.isBlank())
+            throw new IllegalArgumentException();
+        if (!Pattern.compile("^(.+)@(\\S+)$").matcher(email).matches())
+            throw new IllegalArgumentException();
         this.email = email;
     }
 
     public String getPassportNumber() {
+        if (!Pattern.compile("\\d{10}").matcher(phoneNumber).matches())
+            throw new IllegalArgumentException();
         return passportNumber;
     }
 

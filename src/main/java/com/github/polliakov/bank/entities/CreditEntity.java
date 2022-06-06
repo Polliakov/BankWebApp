@@ -51,6 +51,8 @@ public class CreditEntity {
     }
 
     public void setSumLimit(BigDecimal sumLimit) {
+        if (sumLimit.compareTo(BigDecimal.ZERO) < 0)
+            throw new IllegalArgumentException();
         this.sumLimit = sumLimit;
     }
 
@@ -59,6 +61,8 @@ public class CreditEntity {
     }
 
     public void setRate(Double rate) {
+        if (rate < 0)
+            throw new IllegalArgumentException();
         this.rate = rate;
     }
 

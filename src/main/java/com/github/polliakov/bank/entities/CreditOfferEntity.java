@@ -53,6 +53,8 @@ public class CreditOfferEntity {
     }
 
     public void setTotal(BigDecimal total) {
+        if (total.compareTo(BigDecimal.ZERO) < 0)
+            throw new IllegalArgumentException();
         this.total = total;
     }
 

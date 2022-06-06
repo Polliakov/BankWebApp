@@ -65,6 +65,8 @@ public class CreditPaymentEntity {
     }
 
     public void setTotal(BigDecimal total) {
+        if (total.compareTo(BigDecimal.ZERO) < 0)
+            throw new IllegalArgumentException();
         this.total = total;
     }
 
@@ -73,6 +75,8 @@ public class CreditPaymentEntity {
     }
 
     public void setBodyPayment(BigDecimal bodyPayment) {
+        if (bodyPayment.compareTo(BigDecimal.ZERO) < 0)
+            throw new IllegalArgumentException();
         this.bodyPayment = bodyPayment;
     }
 
@@ -81,6 +85,8 @@ public class CreditPaymentEntity {
     }
 
     public void setRatePayment(BigDecimal ratePayment) {
+        if (ratePayment.compareTo(BigDecimal.ZERO) < 0)
+            throw new IllegalArgumentException();
         this.ratePayment = ratePayment;
     }
 

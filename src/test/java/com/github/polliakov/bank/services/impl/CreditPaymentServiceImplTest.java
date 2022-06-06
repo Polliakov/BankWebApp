@@ -12,10 +12,10 @@ class CreditPaymentServiceImplTest {
     void calculatePayments() {
         var service = new CreditPaymentServiceImpl(new PaymentCalculatorServiceImpl());
         var credit = new CreditEntity();
-        credit.setRate(0.1);
+        credit.setRate(0.135);
         var creditOffer = new CreditOfferEntity();
         creditOffer.setCredit(credit);
-        creditOffer.setTotal(BigDecimal.valueOf(10000L));
+        creditOffer.setTotal(BigDecimal.valueOf(10010L));
 
         var payments = service.create(creditOffer, 12);
 
