@@ -49,7 +49,7 @@ public class CreditOfferController {
             return new ResponseEntity<>(payments, HttpStatus.OK);
         }
         catch (Exception ex) {
-            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -71,7 +71,7 @@ public class CreditOfferController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (Exception ex) {
-            return  new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
     }
 }

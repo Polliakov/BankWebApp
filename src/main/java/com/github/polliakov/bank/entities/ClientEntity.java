@@ -94,7 +94,7 @@ public class ClientEntity {
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        if (phoneNumber.isBlank())
+        if (phoneNumber.isEmpty())
             throw new IllegalArgumentException();
         if (!Pattern.compile("\\d{11}").matcher(phoneNumber).matches())
             throw new IllegalArgumentException();
@@ -106,7 +106,7 @@ public class ClientEntity {
     }
 
     public void setEmail(String email) {
-        if (email.isBlank())
+        if (email.isEmpty())
             throw new IllegalArgumentException();
         if (!Pattern.compile("^(.+)@(\\S+)$").matcher(email).matches())
             throw new IllegalArgumentException();
