@@ -4,11 +4,12 @@ import com.github.polliakov.bank.entities.BankEntity;
 import com.github.polliakov.bank.entities.CreditEntity;
 import com.github.polliakov.bank.repositories.CreditRepository;
 import com.github.polliakov.bank.services.CreditService;
+import org.springframework.stereotype.Service;
 
 import java.lang.module.FindException;
 import java.util.ArrayList;
 import java.util.List;
-
+@Service
 public class CreditServiceImpl implements CreditService {
     public CreditServiceImpl(CreditRepository repository) {
         this.repository = repository;
