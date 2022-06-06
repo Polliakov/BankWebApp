@@ -21,6 +21,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void create(ClientEntity client) {
+        client.setId(null);
         repository.save(client);
     }
 

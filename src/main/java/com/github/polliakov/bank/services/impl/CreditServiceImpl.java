@@ -19,7 +19,7 @@ public class CreditServiceImpl implements CreditService {
 
     @Override
     public void create(CreditEntity creditEntity) {
-        // TODO: If entity width this id is already exists?
+        creditEntity.setId(null);
         repository.save(creditEntity);
     }
 
