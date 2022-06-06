@@ -2,6 +2,7 @@ package com.github.polliakov.bank.services.impl;
 
 import com.github.polliakov.bank.entities.BankEntity;
 import com.github.polliakov.bank.entities.ClientEntity;
+import com.github.polliakov.bank.entities.CreditOfferEntity;
 import com.github.polliakov.bank.repositories.ClientRepository;
 import com.github.polliakov.bank.services.ClientService;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,14 @@ public class ClientServiceImpl implements ClientService {
         if (client == null)
             throw new FindException("Client with id = " + clientId + "is not found");
         return new ArrayList<>(client.getBanks());
+    }
+
+    @Override
+    public List<CreditOfferEntity> getCreditOffers(Long clientId){
+        var client = getById(clientId);
+        if (client == null)
+            throw new FindException("Client with id = " + clientId + "is not found");
+        return new ArrayList<>(client.getCreditOffers());
     }
 
     @Override

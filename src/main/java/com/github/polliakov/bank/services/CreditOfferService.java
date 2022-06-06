@@ -11,5 +11,6 @@ public interface CreditOfferService {
     CreditOfferEntity getById(Long id);
     List<CreditOfferEntity> getAll();
     List<CreditPaymentEntity> getPayments(Long creditOfferId);
+    void update(CreditOfferEntity creditOffer);
     void deleteById(Long id);
 }

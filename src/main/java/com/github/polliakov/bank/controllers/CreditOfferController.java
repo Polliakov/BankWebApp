@@ -53,7 +53,18 @@ public class CreditOfferController {
         }
     }
 
-    @DeleteMapping("delete credit offer/{id}")
+    @PutMapping("/update credit offer")
+    public ResponseEntity<?> update(@RequestBody CreditOfferEntity creditOffer) {
+        try {
+            service.update(creditOffer);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/delete credit offer/{id}")
     public ResponseEntity<?> deleteById(@PathVariable Long id) {
         try {
             service.deleteById(id);

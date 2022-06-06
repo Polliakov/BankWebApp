@@ -23,20 +23,7 @@ public class CreditOfferServiceImpl implements CreditOfferService {
 
     @Override
     public void create(CreditOfferEntity creditOffer) {
-        // region Validation
-        if (creditOffer == null)
-            throw new NullPointerException("creditOffer");
-        if (creditOffer.getClient() == null)
-            throw new NullPointerException("creditOffer.client");
-        var credit = creditOffer.getCredit();
-        if (credit == null)
-            throw new NullPointerException("creditOffer.credit");
-        if (creditOffer.getTotal().compareTo(credit.getSumLimit()) > 0)
-            throw new IllegalArgumentException("creditOffer.total greater than credit limit.");
-        // endregion
-
-        var creditPayments = paymentService.create(creditOffer, 12);
-        creditOffer.setPayments(creditPayments);
+        addPayments(creditOffer);
         repository.save(creditOffer);
     }
 
@@ -59,9 +46,33 @@ public class CreditOfferServiceImpl implements CreditOfferService {
     }
 
     @Override
+    public void update(CreditOfferEntity creditOffer) {
+        CheckExists(creditOffer.getId());
+        addPayments(creditOffer);
+        repository.save(creditOffer);
+    }
+
+    @Override
     public void deleteById(Long id) {
         CheckExists(id);
         repository.deleteById(id);
+    }
+
+    private void addPayments(CreditOfferEntity creditOffer) {
+        // region Validation
+        if (creditOffer == null)
+            throw new NullPointerException("creditOffer");
+        if (creditOffer.getClient() == null)
+            throw new NullPointerException("creditOffer.client");
+        var credit = creditOffer.getCredit();
+        if (credit == null)
+            throw new NullPointerException("creditOffer.credit");
+        if (creditOffer.getTotal().compareTo(credit.getSumLimit()) > 0)
+            throw new IllegalArgumentException("creditOffer.total greater than credit limit.");
+        // endregion
+
+        var creditPayments = paymentService.create(creditOffer, 12);
+        creditOffer.setPayments(creditPayments);
     }
 
     private void CheckExists(Long id) {
