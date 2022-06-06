@@ -23,6 +23,7 @@ public class CreditOfferServiceImpl implements CreditOfferService {
 
     @Override
     public void create(CreditOfferEntity creditOffer) {
+        creditOffer.setId(null);
         addPayments(creditOffer);
         repository.save(creditOffer);
     }

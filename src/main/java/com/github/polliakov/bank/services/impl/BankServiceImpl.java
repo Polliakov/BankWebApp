@@ -21,6 +21,7 @@ public class BankServiceImpl implements BankService {
 
     @Override
     public void create(BankEntity bank) {
+        bank.setId(null);
         repository.save(bank);
     }
 

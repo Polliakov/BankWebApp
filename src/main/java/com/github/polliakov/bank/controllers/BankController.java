@@ -53,7 +53,7 @@ public class BankController {
     }
 
     @GetMapping("/bank/{id}")
-    public ResponseEntity<BankEntity>  getById(@PathVariable Long id) {
+    public ResponseEntity<BankEntity> getById(@PathVariable Long id) {
         var bank = service.getById(id);
         return bank != null ?
                 new ResponseEntity<>(bank, HttpStatus.OK) :

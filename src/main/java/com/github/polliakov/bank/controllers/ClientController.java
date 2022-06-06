@@ -19,7 +19,7 @@ public class ClientController {
     public ClientController(ClientService service) { this.service = service; }
 
     @GetMapping("/client banks/{id}")
-    public ResponseEntity<List<BankEntity>> getBanks(@PathVariable Long id){
+    public ResponseEntity<List<BankEntity>> getBanks(@PathVariable Long id) {
         try {
             var banks = service.getBanks(id);
             return new ResponseEntity<>(banks, HttpStatus.OK);
@@ -30,7 +30,7 @@ public class ClientController {
     }
 
     @GetMapping("/client credit offers/{id}")
-    public ResponseEntity<List<CreditOfferEntity>> getCreditOffers(@PathVariable Long id){
+    public ResponseEntity<List<CreditOfferEntity>> getCreditOffers(@PathVariable Long id) {
         try {
             var creditOffers = service.getCreditOffers(id);
             return new ResponseEntity<>(creditOffers, HttpStatus.OK);
@@ -52,7 +52,7 @@ public class ClientController {
     }
 
     @GetMapping("/client/{id}")
-    public ResponseEntity<ClientEntity>  getById(@PathVariable Long id) {
+    public ResponseEntity<ClientEntity> getById(@PathVariable Long id) {
         var client = service.getById(id);
         return client != null ?
                 new ResponseEntity<>(client, HttpStatus.OK) :
