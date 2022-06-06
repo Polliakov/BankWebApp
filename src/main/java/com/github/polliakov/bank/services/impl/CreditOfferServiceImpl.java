@@ -35,7 +35,7 @@ public class CreditOfferServiceImpl implements CreditOfferService {
             throw new IllegalArgumentException("creditOffer.total greater than credit limit.");
         // endregion
 
-        var creditPayments = paymentService.calculatePayments(creditOffer, 12);
+        var creditPayments = paymentService.create(creditOffer, 12);
         creditOffer.setPayments(creditPayments);
         repository.save(creditOffer);
     }

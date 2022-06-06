@@ -5,6 +5,6 @@ import com.github.polliakov.bank.entities.CreditPaymentEntity;
 
 import java.util.List;
 
-public interface CreditPaymentService {
-    List<CreditPaymentEntity> create(CreditOfferEntity creditOffer, int monthsCount);
+public interface PaymentCalculatorService {
+    List<CreditPaymentEntity> calculatePayments(CreditOfferEntity creditOffer, int monthsCount);
 }
