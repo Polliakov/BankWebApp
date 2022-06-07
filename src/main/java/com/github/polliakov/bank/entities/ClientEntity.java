@@ -48,10 +48,9 @@ public class ClientEntity {
     @Column(nullable = false, unique = true, length = 10)
     private String passportNumber;
 
-    @OneToMany(mappedBy = "clientEntity", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "clientEntity", fetch = FetchType.LAZY)
     private Collection<CreditOfferEntity> creditOfferEntities;
 
-    @JsonIgnore
     @ManyToMany(mappedBy = "clientEntities", fetch = FetchType.LAZY)
     private Collection<BankEntity> bankEntities;
 
@@ -117,15 +116,16 @@ public class ClientEntity {
     }
 
     public String getPassportNumber() {
-        if (!Pattern.compile("\\d{10}").matcher(phoneNumber).matches())
-            throw new IllegalArgumentException();
         return passportNumber;
     }
 
     public void setPassportNumber(String passportNumber) {
+        if (!Pattern.compile("\\d{10}").matcher(phoneNumber).matches())
+            throw new IllegalArgumentException();
         this.passportNumber = passportNumber;
     }
 
+    @JsonIgnore
     public Collection<CreditOfferEntity> getCreditOffers() {
         return creditOfferEntities;
     }
@@ -134,6 +134,7 @@ public class ClientEntity {
         this.creditOfferEntities = creditOfferEntities;
     }
 
+    @JsonIgnore
     public Collection<BankEntity> getBanks() {
         return bankEntities;
     }

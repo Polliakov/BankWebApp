@@ -30,11 +30,10 @@ public class CreditOfferEntity {
     @Column(nullable = false)
     private BigDecimal total;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "creditOfferEntity", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "creditOfferEntity", fetch = FetchType.LAZY)
     private Collection<CreditPaymentEntity> payments;
 
-    @ManyToOne
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "credit_id")
     private CreditEntity creditEntity;
 
@@ -61,6 +60,7 @@ public class CreditOfferEntity {
         this.total = total;
     }
 
+    @JsonIgnore
     public Collection<CreditPaymentEntity> getPayments() {
         return payments;
     }

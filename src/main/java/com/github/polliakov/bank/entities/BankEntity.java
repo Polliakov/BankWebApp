@@ -1,5 +1,7 @@
 package com.github.polliakov.bank.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -43,6 +45,7 @@ public class BankEntity {
         this.id = id;
     }
 
+    @JsonIgnore
     public Collection<ClientEntity> getClients() {
         return clientEntities;
     }
@@ -51,6 +54,7 @@ public class BankEntity {
         this.clientEntities = clientEntities;
     }
 
+    @JsonIgnore
     public Collection<CreditEntity> getCredits() {
         return creditEntities;
     }

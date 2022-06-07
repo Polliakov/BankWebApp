@@ -1,5 +1,7 @@
 package com.github.polliakov.bank.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -90,6 +92,7 @@ public class CreditPaymentEntity {
         this.ratePayment = ratePayment;
     }
 
+    @JsonIgnore
     public CreditOfferEntity getCreditOffer() {
         return creditOfferEntity;
     }

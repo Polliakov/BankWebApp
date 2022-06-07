@@ -33,11 +33,9 @@ public class CreditEntity {
     @Column(nullable = false)
     private Double rate;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "creditEntity", fetch = FetchType.EAGER)
     private Collection<CreditOfferEntity> offerEntities;
 
-    @JsonIgnore
     @ManyToMany(mappedBy = "creditEntities", fetch = FetchType.LAZY)
     private Collection<BankEntity> bankEntities;
 
@@ -70,6 +68,7 @@ public class CreditEntity {
         this.rate = rate;
     }
 
+    @JsonIgnore
     public Collection<CreditOfferEntity> getOfferEntities() {
         return offerEntities;
     }
@@ -78,6 +77,7 @@ public class CreditEntity {
         this.offerEntities = offerEntities;
     }
 
+    @JsonIgnore
     public Collection<BankEntity> getBanks() {
         return bankEntities;
     }

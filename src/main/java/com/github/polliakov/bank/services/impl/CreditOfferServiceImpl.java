@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.module.FindException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -59,7 +60,7 @@ public class CreditOfferServiceImpl implements CreditOfferService {
         var credit = getById(creditOfferId);
         if (credit == null)
             throw new FindException("Credit with id = " + creditOfferId + "is not found");
-        return new ArrayList<>(credit.getPayments());
+        return new LinkedList<>(credit.getPayments());
     }
 
     @Override
