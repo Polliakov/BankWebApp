@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("credit offers")
 public class CreditOfferController {
     public CreditOfferController(CreditOfferService service) {
         this.service = service;
@@ -18,7 +19,7 @@ public class CreditOfferController {
 
     private final CreditOfferService service;
 
-    @PostMapping("/add credit offer")
+    @PostMapping
     public ResponseEntity<?> create(@RequestBody CreditOfferDto creditOffer) {
         try {
             service.create(creditOffer);
@@ -29,13 +30,13 @@ public class CreditOfferController {
         }
     }
 
-    @GetMapping("/credit offers")
+    @GetMapping
     public ResponseEntity<List<CreditOfferEntity>> getAll(){
         var creditOffers = service.getAll();
         return new ResponseEntity<>(creditOffers, HttpStatus.OK);
     }
 
-    @GetMapping("/credit offer/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<CreditOfferEntity> getById(@PathVariable Long id) {
         var creditOffer = service.getById(id);
         return creditOffer != null ?
@@ -43,7 +44,7 @@ public class CreditOfferController {
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/credit offer payments/{id}")
+    @GetMapping("/{id}/payments")
     public ResponseEntity<List<CreditPaymentEntity>> getPayments(@PathVariable Long id) {
         try {
             var payments = service.getPayments(id);
@@ -54,7 +55,7 @@ public class CreditOfferController {
         }
     }
 
-    @PutMapping("/update credit offer")
+    @PutMapping
     public ResponseEntity<?> update(@RequestBody CreditOfferDto creditOfferDto) {
         try {
             service.update(creditOfferDto);
@@ -65,7 +66,7 @@ public class CreditOfferController {
         }
     }
 
-    @DeleteMapping("/delete credit offer/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable Long id) {
         try {
             service.deleteById(id);

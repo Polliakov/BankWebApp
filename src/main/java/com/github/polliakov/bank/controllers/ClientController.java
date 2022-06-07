@@ -11,14 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/clients")
 public class ClientController {
-
+    public ClientController(ClientService service) { this.service = service; }
 
     private final ClientService service;
 
-    public ClientController(ClientService service) { this.service = service; }
-
-    @GetMapping("/client banks/{id}")
+    @GetMapping("/{id}/banks")
     public ResponseEntity<List<BankEntity>> getBanks(@PathVariable Long id) {
         try {
             var banks = service.getBanks(id);
@@ -29,7 +28,7 @@ public class ClientController {
         }
     }
 
-    @GetMapping("/client credit offers/{id}")
+    @GetMapping("/{id}/credit offers")
     public ResponseEntity<List<CreditOfferEntity>> getCreditOffers(@PathVariable Long id) {
         try {
             var creditOffers = service.getCreditOffers(id);
@@ -40,7 +39,7 @@ public class ClientController {
         }
     }
 
-    @GetMapping("/clients")
+    @GetMapping
     public ResponseEntity<List<ClientEntity>> getAll() {
         try {
             var clients = service.getAll();
@@ -51,7 +50,7 @@ public class ClientController {
         }
     }
 
-    @GetMapping("/client/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ClientEntity> getById(@PathVariable Long id) {
         var client = service.getById(id);
         return client != null ?
@@ -59,7 +58,7 @@ public class ClientController {
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/add client")
+    @PostMapping
     public ResponseEntity<?> create(@RequestBody ClientEntity client) {
         try {
             service.create(client);
@@ -70,7 +69,7 @@ public class ClientController {
         }
     }
 
-    @PutMapping("/update client")
+    @PutMapping
     public ResponseEntity<?> update(@RequestBody ClientEntity client) {
         try {
             service.update(client);
@@ -81,7 +80,7 @@ public class ClientController {
         }
     }
 
-    @DeleteMapping("/delete client/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         try {
             service.deleteById(id);

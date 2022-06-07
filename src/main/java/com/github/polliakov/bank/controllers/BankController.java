@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/banks")
 public class BankController {
-
-    private final BankService service;
-
     public BankController(BankService service) {
         this.service = service;
     }
 
-    @GetMapping("/bank clients/{id}")
+    private final BankService service;
+
+    @GetMapping("/{id}/clients")
     public ResponseEntity<List<ClientEntity>> getClients(@PathVariable Long id) {
         try {
             var clients = service.getClients(id);
@@ -30,7 +30,7 @@ public class BankController {
         }
     }
 
-    @GetMapping("/bank credits/{id}")
+    @GetMapping("/{id}/credits")
     public ResponseEntity<List<CreditEntity>> getCredits(@PathVariable Long id) {
         try {
             var credits = service.getCredits(id);
@@ -41,7 +41,7 @@ public class BankController {
         }
     }
 
-    @GetMapping("/banks")
+    @GetMapping
     public ResponseEntity<List<BankEntity>> getAll() {
         try {
             var banks = service.getAll();
@@ -52,7 +52,7 @@ public class BankController {
         }
     }
 
-    @GetMapping("/bank/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<BankEntity> getById(@PathVariable Long id) {
         var bank = service.getById(id);
         return bank != null ?
@@ -60,7 +60,7 @@ public class BankController {
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/add bank")
+    @PostMapping
     public ResponseEntity<?> create(@RequestBody BankEntity bank) {
         try {
             service.create(bank);
@@ -71,7 +71,7 @@ public class BankController {
         }
     }
 
-    @PutMapping("/update bank")
+    @PutMapping
     public ResponseEntity<?> update(@RequestBody BankEntity bank) {
         try {
             service.update(bank);
@@ -82,7 +82,7 @@ public class BankController {
         }
     }
 
-    @DeleteMapping("/delete bank/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         try {
             service.deleteById(id);
