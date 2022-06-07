@@ -18,7 +18,9 @@ public class CreditPaymentServiceImpl implements CreditPaymentService {
 
     @Override
     public List<CreditPaymentEntity> create(CreditOfferEntity creditOffer, int monthsCount) {
-        return calculatorService.calculatePayments(creditOffer, monthsCount);
+        var payments = calculatorService.calculatePayments(creditOffer, monthsCount);
+        payments.forEach(p -> p.setCreditOffer(creditOffer));
+        return payments;
     }
 
 }

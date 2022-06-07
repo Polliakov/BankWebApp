@@ -1,5 +1,7 @@
 package com.github.polliakov.bank.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -31,9 +33,11 @@ public class CreditEntity {
     @Column(nullable = false)
     private Double rate;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "creditEntity", fetch = FetchType.EAGER)
     private Collection<CreditOfferEntity> offerEntities;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "creditEntities", fetch = FetchType.LAZY)
     private Collection<BankEntity> bankEntities;
 

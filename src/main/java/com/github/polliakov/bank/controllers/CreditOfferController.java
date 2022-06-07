@@ -1,5 +1,6 @@
 package com.github.polliakov.bank.controllers;
 
+import com.github.polliakov.bank.dto.CreditOfferDto;
 import com.github.polliakov.bank.entities.CreditOfferEntity;
 import com.github.polliakov.bank.entities.CreditPaymentEntity;
 import com.github.polliakov.bank.services.CreditOfferService;
@@ -18,7 +19,7 @@ public class CreditOfferController {
     private final CreditOfferService service;
 
     @PostMapping("/add credit offer")
-    public ResponseEntity<?> create(@RequestBody CreditOfferEntity creditOffer) {
+    public ResponseEntity<?> create(@RequestBody CreditOfferDto creditOffer) {
         try {
             service.create(creditOffer);
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -54,9 +55,9 @@ public class CreditOfferController {
     }
 
     @PutMapping("/update credit offer")
-    public ResponseEntity<?> update(@RequestBody CreditOfferEntity creditOffer) {
+    public ResponseEntity<?> update(@RequestBody CreditOfferDto creditOfferDto) {
         try {
-            service.update(creditOffer);
+            service.update(creditOfferDto);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (Exception ex) {

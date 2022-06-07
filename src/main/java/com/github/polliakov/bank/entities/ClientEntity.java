@@ -1,5 +1,7 @@
 package com.github.polliakov.bank.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.regex.Pattern;
@@ -49,6 +51,7 @@ public class ClientEntity {
     @OneToMany(mappedBy = "clientEntity", fetch = FetchType.EAGER)
     private Collection<CreditOfferEntity> creditOfferEntities;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "clientEntities", fetch = FetchType.LAZY)
     private Collection<BankEntity> bankEntities;
 

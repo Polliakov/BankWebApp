@@ -1,5 +1,7 @@
 package com.github.polliakov.bank.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -28,6 +30,7 @@ public class CreditOfferEntity {
     @Column(nullable = false)
     private BigDecimal total;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "creditOfferEntity", fetch = FetchType.EAGER)
     private Collection<CreditPaymentEntity> payments;
 
