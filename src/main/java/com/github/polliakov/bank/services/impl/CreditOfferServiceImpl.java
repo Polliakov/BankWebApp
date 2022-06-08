@@ -9,6 +9,7 @@ import com.github.polliakov.bank.repositories.CreditPaymentRepository;
 import com.github.polliakov.bank.repositories.CreditRepository;
 import com.github.polliakov.bank.services.CreditOfferService;
 import com.github.polliakov.bank.services.CreditPaymentService;
+import com.github.polliakov.bank.services.DtoMapperService;
 import org.springframework.stereotype.Service;
 
 import java.lang.module.FindException;
@@ -19,26 +20,23 @@ import java.util.List;
 @Service
 public class CreditOfferServiceImpl implements CreditOfferService {
     public CreditOfferServiceImpl(CreditOfferRepository creditOfferRepository,
+                                  CreditPaymentRepository paymentRepository,
                                   CreditPaymentService paymentService,
-                                  CreditRepository creditRepository,
-                                  ClientRepository clientRepository,
-                                  CreditPaymentRepository paymentRepository) {
+                                  DtoMapperService dtoMapper) {
         this.creditOfferRepository = creditOfferRepository;
-        this.clientRepository = clientRepository;
-        this.creditRepository = creditRepository;
-        this.paymentService = paymentService;
         this.paymentRepository = paymentRepository;
+        this.paymentService = paymentService;
+        this.dtoMapper = dtoMapper;
     }
 
     private final CreditOfferRepository creditOfferRepository;
-    private final CreditRepository creditRepository;
-    private final ClientRepository clientRepository;
     private final CreditPaymentRepository paymentRepository;
     private final CreditPaymentService paymentService;
+    private final DtoMapperService dtoMapper;
 
     @Override
     public void create(CreditOfferDto creditOfferDto) {
-        var creditOffer = creditOfferEntityFromDto(creditOfferDto);
+        var creditOffer = dtoMapper.entityFromDto(creditOfferDto);
         creditOffer.setId(null);
         addPayments(creditOffer);
         creditOfferRepository.save(creditOffer);
@@ -65,11 +63,13 @@ public class CreditOfferServiceImpl implements CreditOfferService {
 
     @Override
     public void update(CreditOfferDto creditOfferDto) {
-        var creditOffer = creditOfferEntityFromDto(creditOfferDto);
-        CheckExists(creditOffer.getId());
-        addPayments(creditOffer);
-        creditOfferRepository.save(creditOffer);
-        paymentRepository.saveAll(creditOffer.getPayments());
+        var newCreditOffer = dtoMapper.entityFromDto(creditOfferDto);
+        var oldCreditOffer = creditOfferRepository.findById(creditOfferDto.id).orElseThrow();
+        List<Long> oldPaymentsIds = oldCreditOffer.getPayments().stream().map(p -> p.getId()).toList();
+        oldCreditOffer.getPayments().clear();
+        paymentRepository.deleteAllById(oldPaymentsIds);
+        addPayments(newCreditOffer);
+        creditOfferRepository.save(newCreditOffer);
     }
 
     @Override
@@ -86,24 +86,5 @@ public class CreditOfferServiceImpl implements CreditOfferService {
     private void CheckExists(Long id) {
         if (!creditOfferRepository.existsById(id))
             throw new FindException("Bank with id = " + id + "is not found");
-    }
-
-    private CreditOfferEntity creditOfferEntityFromDto(CreditOfferDto creditOfferDto) {
-        if (creditOfferDto == null)
-            throw new NullPointerException("creditOffer");
-
-        var credit = creditRepository.findById(creditOfferDto.creditId).orElseThrow();
-        var client = clientRepository.findById(creditOfferDto.clientId).orElseThrow();
-
-        var creditOffer = new CreditOfferEntity();
-        creditOffer.setId(creditOfferDto.id);
-        creditOffer.setTotal(creditOfferDto.total);
-        creditOffer.setCredit(credit);
-        creditOffer.setClient(client);
-
-        if (creditOffer.getTotal().compareTo(credit.getSumLimit()) > 0)
-            throw new IllegalArgumentException("creditOffer.total greater than credit limit.");
-
-        return creditOffer;
     }
 }

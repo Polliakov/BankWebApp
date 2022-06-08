@@ -1,5 +1,6 @@
 package com.github.polliakov.bank.controllers;
 
+import com.github.polliakov.bank.dto.BankDto;
 import com.github.polliakov.bank.entities.BankEntity;
 import com.github.polliakov.bank.entities.ClientEntity;
 import com.github.polliakov.bank.entities.CreditEntity;
@@ -61,9 +62,9 @@ public class BankController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody BankEntity bank) {
+    public ResponseEntity<?> create(@RequestBody BankDto bankDto) {
         try {
-            service.create(bank);
+            service.create(bankDto);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch (Exception ex) {

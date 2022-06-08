@@ -39,6 +39,12 @@ public class CreditEntity {
     @ManyToMany(mappedBy = "creditEntities", fetch = FetchType.LAZY)
     private Collection<BankEntity> bankEntities;
 
+    @PreRemove
+    private void removeCreditFromBanks() {
+        for (var b : bankEntities)
+            b.getCredits().remove(this);
+    }
+
     //region Accessors
     public Long getId() {
         return id;

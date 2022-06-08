@@ -1,5 +1,6 @@
 package com.github.polliakov.bank.entities;
 
+import antlr.StringUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -48,11 +49,17 @@ public class ClientEntity {
     @Column(nullable = false, unique = true, length = 10)
     private String passportNumber;
 
-    @OneToMany(mappedBy = "clientEntity", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "clientEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Collection<CreditOfferEntity> creditOfferEntities;
 
     @ManyToMany(mappedBy = "clientEntities", fetch = FetchType.LAZY)
     private Collection<BankEntity> bankEntities;
+
+    @PreRemove
+    private void removeClientFromBanks() {
+        for (var b : bankEntities)
+            b.getClients().remove(this);
+    }
 
     //region Accessors
     public Long getId() {
@@ -68,7 +75,7 @@ public class ClientEntity {
     }
 
     public void setName(String name) {
-        if (name.isBlank())
+        if (name == null || name.isBlank())
             throw new IllegalArgumentException();
         this.name = name;
     }
@@ -78,7 +85,7 @@ public class ClientEntity {
     }
 
     public void setSurname(String surname) {
-        if (surname.isBlank())
+        if (surname == null || surname.isBlank())
             throw new IllegalArgumentException();
         this.surname = surname;
     }
@@ -88,7 +95,7 @@ public class ClientEntity {
     }
 
     public void setPatronymic(String patronymic) {
-        this.patronymic = patronymic.isBlank() ? null : patronymic;
+        this.patronymic = patronymic == null || patronymic.isBlank() ? null : patronymic;
     }
 
     public String getPhoneNumber() {
@@ -96,9 +103,9 @@ public class ClientEntity {
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        if (phoneNumber.isEmpty())
+        if (phoneNumber == null)
             throw new IllegalArgumentException();
-        if (!Pattern.compile("\\d{11}").matcher(phoneNumber).matches())
+        if (!Pattern.compile("^\\d{11}$").matcher(phoneNumber).matches())
             throw new IllegalArgumentException();
         this.phoneNumber = phoneNumber;
     }
@@ -108,7 +115,7 @@ public class ClientEntity {
     }
 
     public void setEmail(String email) {
-        if (email.isEmpty())
+        if (email == null)
             throw new IllegalArgumentException();
         if (!Pattern.compile("^(.+)@(\\S+)$").matcher(email).matches())
             throw new IllegalArgumentException();
@@ -120,7 +127,9 @@ public class ClientEntity {
     }
 
     public void setPassportNumber(String passportNumber) {
-        if (!Pattern.compile("\\d{10}").matcher(phoneNumber).matches())
+        if (passportNumber == null)
+            throw new IllegalArgumentException();
+        if (!Pattern.compile("^\\d{10}$").matcher(passportNumber).matches())
             throw new IllegalArgumentException();
         this.passportNumber = passportNumber;
     }

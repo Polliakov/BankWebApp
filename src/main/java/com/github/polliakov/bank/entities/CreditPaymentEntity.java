@@ -41,7 +41,7 @@ public class CreditPaymentEntity {
     @Column(nullable = false)
     private BigDecimal ratePayment;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "credit_offer_id")
     private CreditOfferEntity creditOfferEntity;
 

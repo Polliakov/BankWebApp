@@ -1,7 +1,9 @@
 package com.github.polliakov.bank.controllers;
 
+import com.github.polliakov.bank.dto.CreditDto;
 import com.github.polliakov.bank.entities.BankEntity;
 import com.github.polliakov.bank.entities.CreditEntity;
+import com.github.polliakov.bank.entities.CreditOfferEntity;
 import com.github.polliakov.bank.services.CreditService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,17 @@ public class CreditController {
     public ResponseEntity<List<BankEntity>> getBanks(@PathVariable Long id){
         try {
             var banks = service.getBanks(id);
+            return new ResponseEntity<>(banks, HttpStatus.OK);
+        }
+        catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{id}/credit offers")
+    public ResponseEntity<List<CreditOfferEntity>> getCreditOffers(@PathVariable Long id){
+        try {
+            var banks = service.getCreditOffers(id);
             return new ResponseEntity<>(banks, HttpStatus.OK);
         }
         catch (Exception ex) {
@@ -47,9 +60,9 @@ public class CreditController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody CreditEntity credit) {
+    public ResponseEntity<?> create(@RequestBody CreditDto creditDto) {
         try {
-            service.create(credit);
+            service.create(creditDto);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch (Exception ex) {

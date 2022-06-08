@@ -30,14 +30,16 @@ public class CreditOfferEntity {
     @Column(nullable = false)
     private BigDecimal total;
 
-    @OneToMany(mappedBy = "creditOfferEntity", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "creditOfferEntity", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
     private Collection<CreditPaymentEntity> payments;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "credit_id")
     private CreditEntity creditEntity;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "client_id")
     private ClientEntity clientEntity;
 

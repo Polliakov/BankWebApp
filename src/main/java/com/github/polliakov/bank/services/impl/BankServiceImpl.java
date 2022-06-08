@@ -1,10 +1,12 @@
 package com.github.polliakov.bank.services.impl;
 
+import com.github.polliakov.bank.dto.BankDto;
 import com.github.polliakov.bank.entities.BankEntity;
 import com.github.polliakov.bank.entities.ClientEntity;
 import com.github.polliakov.bank.entities.CreditEntity;
 import com.github.polliakov.bank.repositories.BankRepository;
 import com.github.polliakov.bank.services.BankService;
+import com.github.polliakov.bank.services.DtoMapperService;
 import org.springframework.stereotype.Service;
 
 import java.lang.module.FindException;
@@ -13,14 +15,17 @@ import java.util.List;
 
 @Service
 public class BankServiceImpl implements BankService {
-    public BankServiceImpl(BankRepository repository) {
+    public BankServiceImpl(BankRepository repository, DtoMapperService dtoMapper) {
         this.repository = repository;
+        this.dtoMapper = dtoMapper;
     }
 
     private final BankRepository repository;
+    private final DtoMapperService dtoMapper;
 
     @Override
-    public void create(BankEntity bank) {
+    public void create(BankDto bankDto) {
+        var bank = dtoMapper.entityFromDto(bankDto);
         bank.setId(null);
         repository.save(bank);
     }
