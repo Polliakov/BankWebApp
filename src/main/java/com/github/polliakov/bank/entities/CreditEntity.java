@@ -3,8 +3,12 @@ package com.github.polliakov.bank.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Collection;
+
 
 @Entity
 @Table(name = "credit")
@@ -27,9 +31,11 @@ public class CreditEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
     @Column(nullable = false)
     private BigDecimal sumLimit;
 
+    @NotNull
     @Column(nullable = false)
     private Double rate;
 
