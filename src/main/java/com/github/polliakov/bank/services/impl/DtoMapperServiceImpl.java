@@ -149,6 +149,7 @@ public class DtoMapperServiceImpl implements DtoMapperService {
         return CreditPaymentDto.builder()
                 .id(creditPayment.getId())
                 .date(creditPayment.getDate())
+                .total(creditPayment.getTotal())
                 .bodyPayment(creditPayment.getBodyPayment())
                 .ratePayment(creditPayment.getRatePayment())
                 .build();

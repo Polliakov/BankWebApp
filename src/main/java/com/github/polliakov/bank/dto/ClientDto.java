@@ -26,7 +26,7 @@ public class ClientDto {
     @Size(min = 11, max = 11)
     private String phoneNumber;
     @NotNull
-    @Email(regexp = "^\\d{11}$")
+    @Email(regexp = "^(.+)@(\\S+)$")
     private String email;
     @NotNull
     @Size(min = 10, max = 10)
