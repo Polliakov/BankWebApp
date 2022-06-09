@@ -15,7 +15,7 @@ public class SwaggerConfig {
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.hn.logmanage.Controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.github.polliakov.bank.controllers"))
                 .paths(PathSelectors.any())
                 .build();
     }

@@ -1,11 +1,9 @@
 package com.github.polliakov.bank.services;
 
-import com.github.polliakov.bank.entities.BankEntity;
-
 import java.util.List;
 
-public interface CRUDService<TEntity, TDto> {
-    void create(TDto entity);
+public interface CRUDService<TEntity> {
+    void create(TEntity entity);
     TEntity getById(Long id);
     List<TEntity> getAll();
     void update(TEntity entity);

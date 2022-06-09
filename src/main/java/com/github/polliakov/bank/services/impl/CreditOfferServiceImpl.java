@@ -1,19 +1,14 @@
 package com.github.polliakov.bank.services.impl;
 
-import com.github.polliakov.bank.dto.CreditOfferDto;
 import com.github.polliakov.bank.entities.CreditOfferEntity;
 import com.github.polliakov.bank.entities.CreditPaymentEntity;
-import com.github.polliakov.bank.repositories.ClientRepository;
 import com.github.polliakov.bank.repositories.CreditOfferRepository;
 import com.github.polliakov.bank.repositories.CreditPaymentRepository;
-import com.github.polliakov.bank.repositories.CreditRepository;
 import com.github.polliakov.bank.services.CreditOfferService;
 import com.github.polliakov.bank.services.CreditPaymentService;
-import com.github.polliakov.bank.services.DtoMapperService;
 import org.springframework.stereotype.Service;
 
 import java.lang.module.FindException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,22 +16,18 @@ import java.util.List;
 public class CreditOfferServiceImpl implements CreditOfferService {
     public CreditOfferServiceImpl(CreditOfferRepository creditOfferRepository,
                                   CreditPaymentRepository paymentRepository,
-                                  CreditPaymentService paymentService,
-                                  DtoMapperService dtoMapper) {
+                                  CreditPaymentService paymentService) {
         this.creditOfferRepository = creditOfferRepository;
         this.paymentRepository = paymentRepository;
         this.paymentService = paymentService;
-        this.dtoMapper = dtoMapper;
     }
 
     private final CreditOfferRepository creditOfferRepository;
     private final CreditPaymentRepository paymentRepository;
     private final CreditPaymentService paymentService;
-    private final DtoMapperService dtoMapper;
 
     @Override
-    public void create(CreditOfferDto creditOfferDto) {
-        var creditOffer = dtoMapper.entityFromDto(creditOfferDto);
+    public void create(CreditOfferEntity creditOffer) {
         creditOffer.setId(null);
         addPayments(creditOffer);
         creditOfferRepository.save(creditOffer);
@@ -62,12 +53,12 @@ public class CreditOfferServiceImpl implements CreditOfferService {
     }
 
     @Override
-    public void update(CreditOfferDto creditOfferDto) {
-        var newCreditOffer = dtoMapper.entityFromDto(creditOfferDto);
-        var oldCreditOffer = creditOfferRepository.findById(creditOfferDto.id).orElseThrow();
+    public void update(CreditOfferEntity newCreditOffer) {
+        var oldCreditOffer = creditOfferRepository.findById(newCreditOffer.getId()).orElseThrow();
         List<Long> oldPaymentsIds = oldCreditOffer.getPayments().stream().map(p -> p.getId()).toList();
         oldCreditOffer.getPayments().clear();
         paymentRepository.deleteAllById(oldPaymentsIds);
+
         addPayments(newCreditOffer);
         creditOfferRepository.save(newCreditOffer);
     }

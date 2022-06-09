@@ -1,13 +1,11 @@
 package com.github.polliakov.bank.services.impl;
 
-import com.github.polliakov.bank.dto.ClientDto;
 import com.github.polliakov.bank.entities.BankEntity;
 import com.github.polliakov.bank.entities.ClientEntity;
 import com.github.polliakov.bank.entities.CreditOfferEntity;
 import com.github.polliakov.bank.repositories.BankRepository;
 import com.github.polliakov.bank.repositories.ClientRepository;
 import com.github.polliakov.bank.services.ClientService;
-import com.github.polliakov.bank.services.DtoMapperService;
 import org.springframework.stereotype.Service;
 
 import java.lang.module.FindException;
@@ -16,19 +14,16 @@ import java.util.List;
 
 @Service
 public class ClientServiceImpl implements ClientService {
-    public ClientServiceImpl(ClientRepository repository, BankRepository bankRepository, DtoMapperService dtoMapper) {
+    public ClientServiceImpl(ClientRepository repository, BankRepository bankRepository) {
         this.repository = repository;
         this.bankRepository = bankRepository;
-        this.dtoMapper = dtoMapper;
     }
 
     private final BankRepository bankRepository;
     private final ClientRepository repository;
-    private final DtoMapperService dtoMapper;
 
     @Override
-    public void create(ClientDto clientDto) {
-        var client = dtoMapper.entityFromDto(clientDto);
+    public void create(ClientEntity client) {
         client.setId(null);
         repository.save(client);
 
@@ -67,7 +62,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void update(ClientEntity client) {
-        CheckExists(client.getId());
+        var creditOffers = getCreditOffers(client.getId());
+        client.setCreditOffers(creditOffers);
         repository.save(client);
     }
 

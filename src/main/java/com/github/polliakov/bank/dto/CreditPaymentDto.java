@@ -1,25 +1,23 @@
 package com.github.polliakov.bank.dto;
 
+import com.github.polliakov.bank.entities.CreditOfferEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreditOfferDto {
+public class CreditPaymentDto {
     private Long id;
-    @NotNull
-    @DecimalMin(value = "0.0")
+    private Date date;
     private BigDecimal total;
-    @NotNull
-    private Long creditId;
-    @NotNull
-    private Long clientId;
+    private BigDecimal bodyPayment;
+    private BigDecimal ratePayment;
+    private CreditOfferEntity creditOfferEntityId;
 }

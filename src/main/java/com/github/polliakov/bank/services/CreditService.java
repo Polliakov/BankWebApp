@@ -7,7 +7,7 @@ import com.github.polliakov.bank.entities.CreditOfferEntity;
 
 import java.util.List;
 
-public interface CreditService extends CRUDService<CreditEntity, CreditDto> {
+public interface CreditService extends CRUDService<CreditEntity> {
     List<BankEntity> getBanks(Long creditId);
     List<CreditOfferEntity> getCreditOffers(Long creditId);
 }
